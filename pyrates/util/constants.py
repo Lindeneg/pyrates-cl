@@ -36,6 +36,7 @@ class Constants:
     xpathName: str = GetXPath(1)
     xpathFrom: str = GetXPath(2)
     xpathTo: str = GetXPath(3)
+    source: str = "x-rates.com"
     name: str = "name"
     currencyCode: str = "currency_code"
     fromEuro: str = "from_euro"
