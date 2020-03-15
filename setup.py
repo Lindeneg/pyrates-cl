@@ -10,16 +10,15 @@ with open("requirements.txt", "r") as mFile:
 
 require = [i for i in requirements if not i == ""]
 
-
 setuptools.setup(
     name="pyrates-cl",
-    version="0.0.1",
+    version="0.1",
     author="Christian Lindeneg",
     author_email="christian@lindeneg.org",
     description="Currency Conversion",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/lindeneg/pyrates",
+    url="https://github.com/lindeneg/pyrates-cl",
     packages=setuptools.find_packages(),
     install_requires=require,
     classifiers=[
