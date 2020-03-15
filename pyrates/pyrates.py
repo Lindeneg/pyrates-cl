@@ -1,4 +1,4 @@
-from typing import Sequence, Union, Optional, Any
+from typing import Sequence, Union, Optional, Any, Mapping
 from time import time
 from datetime import datetime
 
@@ -104,7 +104,7 @@ class PyRates:
         Return None if the rate could not be found.
 
             Parameters:
-                    rate   (str)                 : Three letter currencycode string, default: "usd"
+                    rate   (str)                 : Three letter currencycode string
 
             Returns:
                     result (Rate, None)          : Rate object or None
@@ -143,6 +143,15 @@ class PyRates:
             return False
         self.__UpdateRates()
         return True
+    
+    def GetSupportedCurrencies(self) -> Mapping[str, str]:
+        """
+        Get a map of all supported currencycodes and their respective country name
+
+            Returns:
+                    currencies (Mapping) : A map of all supported currencies
+        """
+        return Constants.currencies
     
     def __Init(self) -> None:
         """
@@ -190,6 +199,9 @@ class PyRates:
 
     def __repr__(self) -> str:
         return f"""
+SOURCE: {Constants.source}
+TIME  : {self.GetTimeString()}
+
 |==========================================================================|
 | CURRENCY | 1.0 EUR                        | INV 1.0
 |==========================================================================|
