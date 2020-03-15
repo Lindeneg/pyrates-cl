@@ -81,7 +81,7 @@ class PyRates:
         Return None if the rate could not be found
 
             Parameters:
-                    rate   (str)                 : Three letter currencycode string, default: "usd"
+                    rate   (str)                 : Three letter currencycode string
 
             Returns:
                     result (Sequence, None)      : Dictionary with given rate information or None
