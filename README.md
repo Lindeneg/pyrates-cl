@@ -4,37 +4,43 @@ Work-In-Progress
 ---------
 - Implement GUI and CLI
 
+Convert rates between 53 currencies
+
 # Installation
 
+with pip
 ```shell
 $ python -m pip install pyrates-cl
 ```
 
+with source
+
+```shell
+$ git clone https://github.com/Lindeneg/pyrates-cl && cd pyrates-cl
+$ python setup.py install
+```
+
 # Usage
-
 ```python
->>> from pyrates import PyRates
+from pyrates import PyRates
 
->>> pyrates = PyRates()
-
+pyrates = PyRates()
+```
+```python
+# pyrates.Convert(fromRate, toRate, amount)      -> float
 
 """
-Optional Args
-
-fromRate: str   - default = "eur"
-toRate  : str   - default = "usd"
-amount  : float - default = 1
-
-
-return  : float
+| Arguments | Type             | Required | Default |
+|-----------|------------------|----------|---------|
+| fromRate  | Union[str, Rate] | No       | "usd"   |
+| toRate    | Union[str, Rate] | No       | "eur"   |
+| amount    | float            | No       | 1.0     |
 """
 >>> pyrates.Convert(fromRate="nok", toRate="aud", amount=122.5)
 111.17176148320918
 
 
-"""
-return: Sequence[Mapping[str, Union[str, float]]]
-"""
+# pyrates.GetRates()                             -> Sequence[Mapping[str, Union[str, float]]]
 >>> pyrates.GetRates()
 [...
     {
@@ -46,12 +52,11 @@ return: Sequence[Mapping[str, Union[str, float]]]
 ...]
 
 
+# pyrates.GetRate(rate)                         -> Optional[Mapping[str, Union[str, float]]]
 """
-Optional Arg
-
-rate: str - default = "usd"
-
-return: Optional[Mapping[str, Union[str, float]]]
+| Arguments | Type             | Required | Default |
+|-----------|------------------|----------|---------|
+| rate      | str              | Yes      |    -    |
 """
 >>> pyrates.GetRate(rate="dkk")
 {
@@ -62,9 +67,17 @@ return: Optional[Mapping[str, Union[str, float]]]
 }
 
 
-"""
-return: Mapping[str, str]
-"""
+# pyrates.GetTimestamp()                        -> float
+>>> pyrates.GetTimestamp()
+1584247390.485117
+
+
+# pyrates.GetTimeString()                       -> str
+>>> pyrates.GetTimeString()
+'2020-03-15 04:43:10 UTC'
+
+
+# pyrates.GetSupportedCurrencies()              -> Mapping[str, str]
 >>> pyrates.GetSupportedCurrencies()
 {
     ...
@@ -74,20 +87,7 @@ return: Mapping[str, str]
 }
 
 
-"""
-return: float
-"""
->>> pyrates.GetTimestamp()
-1584247390.485117
-
-
-"""
-return: str
-"""
->>> pyrates.GetTimeString()
-'2020-03-15 04:43:10 UTC'
-
-
+# pyrates.__repr__()                            -> str
 >>> print(pyrates)
 |==========================================================================|
 | CURRENCY | 1.0 EUR                        | INV 1.0 EUR
@@ -103,4 +103,3 @@ return: str
 | [...]    | [...]                          | [...]
 |==========================================================================|
 ```
-
