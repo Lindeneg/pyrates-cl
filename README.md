@@ -4,6 +4,7 @@ Convert rates between 53 currencies
 -------------
 
 To do:
+- Allow changing of base currency
 - Implement GUI and CLI
 - Implement unit tests
 
