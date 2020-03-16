@@ -21,6 +21,8 @@ setuptools.setup(
     url="https://github.com/lindeneg/pyrates-cl",
     packages=setuptools.find_packages(),
     install_requires=require,
+    test_suite="tests",
+    scripts=["bin/pyrates"],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
