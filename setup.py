@@ -12,7 +12,7 @@ require = [i for i in requirements if not i == ""]
 
 setuptools.setup(
     name="pyrates-cl",
-    version="0.1",
+    version="0.2",
     author="Christian Lindeneg",
     author_email="christian@lindeneg.org",
     description="Currency Conversion",
