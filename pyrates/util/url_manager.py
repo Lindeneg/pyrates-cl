@@ -27,21 +27,4 @@ def URLManager(url: str, header: Mapping[str, str], mSleep: int = 8, rJSON: bool
         return req.content
     else:
         mLogger.critical(f"URLManager: non-200 response: {req}")
-    return URLError(url, header, req, mSleep, rJSON)
-
-
-def URLError(url: str, header: Mapping[str, str], req: Response, mSleep: int, rJSON: bool) -> Types.URLResponse:
-    """
-    Manages HTTP/HTTPS connection failures
-
-    Raises an exception if no communication can be established after repeated attempts
-
-        Returns:
-                result (URLResponse)  : Returns response content on success
-    """
-    if mSleep > 256:
-        mLogger.critical(f"URLError: No Server Response after {mSleep} seconds. response: {req}")
-        raise Exception("PyRatesURLError: Failed communication with server. Check '%s/%s' for further inspection." % (Constants.logPath, Constants.logFileName))
-    sleep(mSleep)
-    nSleep: int = mSleep * 2
-    return URLManager(url, header, nSleep, rJSON)
+    raise Exception("PyRatesURLError: Failed communication with server. Check '%s/%s' for further inspection." % (Constants.logPath, Constants.logFileName))
