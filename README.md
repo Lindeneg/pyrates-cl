@@ -6,7 +6,6 @@ Convert rates between 53 currencies
 To do:
 - Allow changing of base currency
 - Implement GUI and CLI
-- Implement unit tests
 
 
 # Installation
@@ -51,7 +50,7 @@ pyrates = PyRates()
         "currency_code": "GBP",
         "from_euro": 0.901865,
         "to_euro": 1.108813
-    }
+    },
 ...]
 
 
