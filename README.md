@@ -34,8 +34,8 @@ pyrates = PyRates()
 """
 | Arguments | Type             | Required | Default |
 |-----------|------------------|----------|---------|
-| fromRate  | Union[str, Rate] | No       | "usd"   |
-| toRate    | Union[str, Rate] | No       | "eur"   |
+| fromRate  | Union[str, Rate] | No       | "eur"   |
+| toRate    | Union[str, Rate] | No       | "usd"   |
 | amount    | float            | No       | 1.0     |
 """
 >>> pyrates.Convert(fromRate="nok", toRate="aud", amount=122.5)
