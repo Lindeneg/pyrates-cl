@@ -31,7 +31,6 @@ class PyRates:
         self.__timestamp: float = 0
         self.__Init()
         if len(self.__dictableRates) <= 0 or len(self.__rates) <= 0 or self.__timestamp == 0:
-            print(self.__dictableRates)
             raise Exception("PyRatesInitError: Failed to initialize. Check '%s/%s' for further inspection." % (Constants.logPath, Constants.logFileName))
 
     def Convert(
