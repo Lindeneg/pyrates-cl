@@ -83,7 +83,7 @@ class PyRates:
                     rate   (str)                 : Three letter currencycode string
 
             Returns:
-                    result (Sequence, None)      : Dictionary with given rate information or None
+                    result (Mapping, None)       : Dictionary with given rate information or None
         """
         return Rate.GetDictableRate(rate, self.__dictableRates)
 
