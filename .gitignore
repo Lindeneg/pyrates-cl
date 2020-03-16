@@ -11,6 +11,7 @@ envrate/
 build/
 dist/
 pyrates_cl.egg-info/
+.idea/
 
 # C extensions
 *.so
