@@ -52,6 +52,12 @@ class Constants:
     rateStringLength: int = 31
     nameStringLength: int = 9
     cacheLimitInSeconds: int = 1800
+    guiTitle: str = 'PyRates - GUI'
+    guiHeight: int = 800
+    guiWidth: int = 800
+    guiResizeable: bool = False
+    guiBackgroundColor: str = '#000000'
+    guiTextColor: str = '#ffffff'
     currencies: Mapping[str, str] = {
         "ARS": "Argentine Peso",
         "AUD": "Australian Dollar",
