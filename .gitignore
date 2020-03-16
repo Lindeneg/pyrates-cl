@@ -12,6 +12,8 @@ build/
 dist/
 pyrates_cl.egg-info/
 .idea/
+pyrates.log
+data.json
 
 # C extensions
 *.so
