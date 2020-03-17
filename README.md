@@ -33,4 +33,4 @@ $ git clone https://github.com/Lindeneg/pyrates-cl && cd pyrates-cl
 $ python setup.py install
 ```
 
-#### [Documentation](https://github.com/lindeneg/docs)
+#### [Documentation](https://github.com/Lindeneg/pyrates-cl/tree/0.2/docs)
