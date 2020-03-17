@@ -25,6 +25,17 @@ class Types:
     Number = Union[int, float]
 
 
+class GUI:
+    title: str = "PyRatesGUI 0.2"
+    source: str = "https://github.com/lindeneg/pyrates-cl"
+    height: int = 800
+    width: int = 800
+    backgroundColor: str = "#000000"
+    textColor: str = "#ffffff"
+    buttonColor: str = "#666666"
+    resizeable: bool = False
+
+
 class Constants:
     url: str = "https://www.x-rates.com/table/?from=EUR&amount=1"
     header: MutableMapping[str, str] = {
@@ -52,12 +63,6 @@ class Constants:
     rateStringLength: int = 31
     nameStringLength: int = 9
     cacheLimitInSeconds: int = 1800
-    guiTitle: str = 'PyRates - GUI'
-    guiHeight: int = 800
-    guiWidth: int = 800
-    guiResizeable: bool = False
-    guiBackgroundColor: str = '#000000'
-    guiTextColor: str = '#ffffff'
     currencies: Mapping[str, str] = {
         "ARS": "Argentine Peso",
         "AUD": "Australian Dollar",
