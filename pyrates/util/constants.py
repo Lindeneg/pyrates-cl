@@ -30,6 +30,9 @@ class GUI:
     source: str = "https://github.com/lindeneg/pyrates-cl"
     height: int = 800
     width: int = 800
+    xOffset: int = 10
+    yOffset: int = 5
+    componentTableHeight: int = 32
     backgroundColor: str = "#000000"
     textColor: str = "#ffffff"
     buttonColor: str = "#666666"
@@ -62,7 +65,7 @@ class Constants:
     dataFileName: str = "data.json"
     rateStringLength: int = 31
     nameStringLength: int = 9
-    cacheLimitInSeconds: int = 1800
+    cacheLimitInSeconds: int = 10000 # TODO Revert back to 1800
     currencies: Mapping[str, str] = {
         "ARS": "Argentine Peso",
         "AUD": "Australian Dollar",
