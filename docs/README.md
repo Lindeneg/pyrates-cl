@@ -21,7 +21,7 @@ from pyrates import PyRates
 
 pyrates = PyRates()
 ```
-### `pyrates.Convert(fromRate, toRate, amount) -> float` <a name="anchor-pyrates-convert"></a>
+#### `pyrates.Convert(fromRate, toRate, amount) -> float` <a name="anchor-pyrates-convert"></a>
 
 | Arguments | Type             | Required | Default |
 |-----------|------------------|----------|---------|
@@ -32,7 +32,7 @@ pyrates = PyRates()
 >>> pyrates.Convert(fromRate="nok", toRate="aud", amount=122.5)
 19.574542061193018
 ```
-### `pyrates.GetRates() -> Sequence[Mapping[str, Union[str, float]]]` <a name="anchor-pyrates-get-rates"></a>
+#### `pyrates.GetRates() -> Sequence[Mapping[str, Union[str, float]]]` <a name="anchor-pyrates-get-rates"></a>
 ```python
 >>> pyrates.GetRates()
 [...
@@ -45,7 +45,7 @@ pyrates = PyRates()
     },
 ...]
 ```
-### `pyrates.GetRate(rate) -> Optional[Mapping[str, Union[str, float]]]` <a name="anchor-pyrates-get-rate"></a>
+#### `pyrates.GetRate(rate) -> Optional[Mapping[str, Union[str, float]]]` <a name="anchor-pyrates-get-rate"></a>
 | Arguments | Type             | Required | Default |
 |-----------|------------------|----------|---------|
 | rate      | str              | Yes      |    -    |
@@ -58,14 +58,14 @@ pyrates = PyRates()
     "to_euro": 0.1338
 }
 ```
-### `pyrates.GetRateObjects() -> Sequence[Rate]` <a name="anchor-pyrates-get-rate-objects"></a>
+#### `pyrates.GetRateObjects() -> Sequence[Rate]` <a name="anchor-pyrates-get-rate-objects"></a>
 ```python
 >>> pyrates.GetRateObjects()
 [...
     <pyrates.rate.rate.Rate object>
 ...]
 ```
-### `pyrates.GetRateObject(rate) -> Optional[Rate]` <a name="anchor-pyrates-get-rate-object"></a>
+#### `pyrates.GetRateObject(rate) -> Optional[Rate]` <a name="anchor-pyrates-get-rate-object"></a>
 | Arguments | Type             | Required | Default |
 |-----------|------------------|----------|---------|
 | rate      | str              | Yes      |    -    |
@@ -73,22 +73,22 @@ pyrates = PyRates()
 >>> pyrates.GetRateObject(rate="dkk")
 <pyrates.rate.rate.Rate object>
 ```
-### `pyrates.GetTimestamp() -> float` <a name="anchor-pyrates-get-timestamp"></a>
+#### `pyrates.GetTimestamp() -> float` <a name="anchor-pyrates-get-timestamp"></a>
 ```python
 >>> pyrates.GetTimestamp()
 1584304647.245822
 ```
-### `pyrates.GetTimeString() -> str` <a name="anchor-pyrates-get-time-string"></a>
+#### `pyrates.GetTimeString() -> str` <a name="anchor-pyrates-get-time-string"></a>
 ```python
 >>> pyrates.GetTimeString()
 '2020-03-15 20:37:27 UTC'
 ```
-### `pyrates.UpdateRates() -> bool` <a name="anchor-pyrates-update-rates"></a>
+#### `pyrates.UpdateRates() -> bool` <a name="anchor-pyrates-update-rates"></a>
 ```python
 >>> pyrates.UpdateRates()
 True
 ```
-### `pyrates.GetSupportedCurrencies() -> Mapping[str, str]` <a name="anchor-pyrates-get-supported-currencies"></a>
+#### `pyrates.GetSupportedCurrencies() -> Mapping[str, str]` <a name="anchor-pyrates-get-supported-currencies"></a>
 ```python
 >>> pyrates.GetSupportedCurrencies()
 {
@@ -98,7 +98,7 @@ True
     ...
 }
 ```
-### `pyrates.__repr__() -> str` <a name="anchor-pyrates-repr"></a>
+#### `pyrates.__repr__() -> str` <a name="anchor-pyrates-repr"></a>
 ```python
 >>> print(pyrates)
 '''
