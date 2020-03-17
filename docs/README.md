@@ -125,5 +125,5 @@ TIME  : 2020-03-15 20:53:20 UTC
 
 CLI/GUI Usage <a name="anchor-cli-gui"></a>
 ================
-Content for chapter one.
+Work In Progress
 
