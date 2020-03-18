@@ -4,8 +4,8 @@ PyRates supports conversion between 54 currency rates
 -------
 Can be used as:
 - Package/Module
-- CLI
-- GUI
+- CLI (still WIP)
+- GUI (still WIP)
 
 The rates are fetched by webscraping x-rates.com and saved locally
 
