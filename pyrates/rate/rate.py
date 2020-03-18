@@ -48,6 +48,47 @@ class Rate:
     @property
     def toEuro(self) -> float:
         return self.__toEuro
+    
+    def Convert(self, toRate: Rate, amount: float = 1) -> float:
+        """
+        Converts a given amount of self into toRate 
+
+            Parameters:
+                    toRate     (Rate): Rate object target for currency conversion
+
+            Returns:
+                    conversion (float)    : The amount of self converted into toRate
+        """
+        if isinstance(toRate, Rate):
+            return (self.toEuro / toRate.toEuro) * amount
+        mLogger.critical(f"ConvertException: toRate is not type Rate but type '{type(toRate)}'")
+        raise TypeError("toRate argument must be of type 'Rate' and not type '%s'" % type(toRate))
+
+    def GetTableString(self) -> str:
+        """
+        Generates a string to be used by PyRates __repr__ method
+
+            Returns:
+                    tableString (str)  : A string confining Rate data into a table-like structure
+        """
+        return f"""| {self.__Fill(self.code, Constants.nameStringLength)}| {self.__Fill(str(self.fromEuro), Constants.rateStringLength)}| {self.__Fill(str(self.toEuro), Constants.rateStringLength)}
+|==========================================================================|
+"""
+
+    def __Fill(self, inputString, limit) -> str:
+        """
+        Used by GetTableString to generate whitespaces, such that the spacing between Rates in the table-like structure are consistent
+
+            Parameters:
+                    inputString (str): String to be filled with whitespaces
+                    limit       (int): Target length of the string
+
+            Returns:
+                    result      (str): inputString filled with the appropiate amount of whitespaces
+        """
+        for i in range((limit - len(inputString))):
+            inputString += " "
+        return inputString
 
     @staticmethod
     def GetRate(rateCode: str, rates: Sequence[Rate]) -> Optional[Rate]:
@@ -113,47 +154,6 @@ class Rate:
             generatedRates.append(rate)
         generatedRates.append(Rate("Euro", "EUR", 1.0, 1.0))
         return generatedRates
-    
-    def Convert(self, toRate: Rate, amount: float = 1) -> float:
-        """
-        Converts a given amount of self into toRate 
-
-            Parameters:
-                    toRate     (Rate): Rate object target for currency conversion
-
-            Returns:
-                    conversion (float)    : The amount of self converted into toRate
-        """
-        if isinstance(toRate, Rate):
-            return (self.toEuro / toRate.toEuro) * amount
-        mLogger.critical(f"ConvertException: toRate is not type Rate but type '{type(toRate)}'")
-        raise TypeError("toRate argument must be of type 'Rate' and not type '%s'" % type(toRate))
-
-    def GetTableString(self) -> str:
-        """
-        Generates a string to be used by PyRates __repr__ method
-
-            Returns:
-                    tableString (str)  : A string confining Rate data into a table-like structure
-        """
-        return f"""| {self.__Fill(self.code, Constants.nameStringLength)}| {self.__Fill(str(self.fromEuro), Constants.rateStringLength)}| {self.__Fill(str(self.toEuro), Constants.rateStringLength)}
-|==========================================================================|
-"""
-
-    def __Fill(self, inputString, limit) -> str:
-        """
-        Used by GetTableString to generate whitespaces, such that the spacing between Rates in the table-like structure are consistent
-
-            Parameters:
-                    inputString (str): String to be filled with whitespaces
-                    limit       (int): Target length of the string
-
-            Returns:
-                    result      (str): inputString filled with the appropiate amount of whitespaces
-        """
-        for i in range((limit - len(inputString))):
-            inputString += " "
-        return inputString
 
     def __eq__(self, other: object) -> bool:
         if isinstance(other, Rate):
