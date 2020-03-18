@@ -13,9 +13,4 @@ In order to keep get-requests to a minimum, rates are only updated if they are o
 
 The base currency is by default: Euro. Work in progress to let the user change the base currency at will
 
--------------
-
-To do:
-- Allow changing of base currency
-
-## [Documentation](https://github.com/Lindeneg/pyrates-cl/tree/0.2/docs)
+# [Documentation](https://github.com/Lindeneg/pyrates-cl/tree/0.2/docs)
