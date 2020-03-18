@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import MutableSequence, Sequence, Mapping, Union, Optional, Any
 
 from pyrates.util.constants import Types, Constants
+from pyrates.logger.logger import mLogger
 
 
 class Rate:
@@ -47,68 +48,6 @@ class Rate:
     @property
     def toEuro(self) -> float:
         return self.__toEuro
-
-    @staticmethod
-    def GetRate(rateCode: str, rates: Sequence[Rate]) -> Optional[Rate]:
-        """
-        Return a Rate object.
-        
-        Return None if the rate could not be found.
-
-            Parameters:
-                    rateCode (str)                 : Three letter currencycode string
-                    rates    (Sequence)            : Sequence of Rate objects
-
-            Returns:
-                    result   (Rate, None)          : Rate object or None
-        """
-        rate: Rate
-        for rate in rates:
-            if rate.code.upper() == rateCode.upper():
-                return rate
-        return None
-
-    @staticmethod
-    def GetDictableRate(rateCode: str, rates: Sequence[Types.DictableRate]) -> Optional[Types.DictableRate]:
-        """
-        Return a dictionary with the given rate information
-        
-        Return None if the rate could not be found
-
-            Parameters:
-                    rateCode (str)                 : Three letter currencycode string
-                    rates    (Sequence)            : Sequence of rate dictionaries
-
-            Returns:
-                    result   (Sequence, None)      : Dictionary with given rate information or None
-        """
-        rate: Types.DictableRate
-        for rate in rates:
-            name: Any = rate[Constants.currencyCode]
-            if isinstance(name, str) and name.upper() == rateCode.upper():
-                return rate
-        return None
-
-    @staticmethod
-    def GenerateRates(data: Sequence[Types.DictableRate]) -> Sequence[Rate]:
-        """
-        Generates Rate objects from a Sequence of rate dictionaries
-
-            Parameters:
-                    data    (Sequence)    : Sequence of rate dictionaries
-
-            Returns:
-                    rates   (Sequence)    : Sequence of Rate objects
-        """
-        if not isinstance(data, Sequence):
-            raise TypeError("Argument to function GenerateRates must be a of a sequence type not of type '%s'" % type(data))
-        generatedRates: MutableSequence[Rate] = []
-        item: Mapping[str, Union[str, float]]
-        for item in data:
-            rate: Rate = Rate(str(item["name"]), str(item["currency_code"]), float(item["from_euro"]), float(item["to_euro"]))
-            generatedRates.append(rate)
-        generatedRates.append(Rate("Euro", "EUR", 1.0, 1.0))
-        return generatedRates
     
     def Convert(self, toRate: Rate, amount: float = 1) -> float:
         """
@@ -122,6 +61,7 @@ class Rate:
         """
         if isinstance(toRate, Rate):
             return (self.toEuro / toRate.toEuro) * amount
+        mLogger.critical(f"ConvertException: toRate is not type Rate but type '{type(toRate)}'")
         raise TypeError("toRate argument must be of type 'Rate' and not type '%s'" % type(toRate))
 
     def GetTableString(self) -> str:
@@ -150,7 +90,73 @@ class Rate:
             inputString += " "
         return inputString
 
+    @staticmethod
+    def GetRate(rateCode: str, rates: Sequence[Rate]) -> Optional[Rate]:
+        """
+        Return a Rate object.
+        
+        Return None if the rate could not be found.
+
+            Parameters:
+                    rateCode (str)                 : Three letter currencycode string
+                    rates    (Sequence)            : Sequence of Rate objects
+
+            Returns:
+                    result   (Rate, None)          : Rate object or None
+        """
+        rate: Rate
+        for rate in rates:
+            if rate.code.upper() == rateCode.upper():
+                return rate
+        mLogger.debug(f"GetRate: could not retrieve '{rateCode}' from rate sequence")
+        return None
+
+    @staticmethod
+    def GetDictableRate(rateCode: str, rates: Sequence[Types.DictableRate]) -> Optional[Types.DictableRate]:
+        """
+        Return a dictionary with the given rate information
+        
+        Return None if the rate could not be found
+
+            Parameters:
+                    rateCode (str)                 : Three letter currencycode string
+                    rates    (Sequence)            : Sequence of rate dictionaries
+
+            Returns:
+                    result   (Sequence, None)      : Dictionary with given rate information or None
+        """
+        rate: Types.DictableRate
+        for rate in rates:
+            name: Any = rate[Constants.currencyCode]
+            if isinstance(name, str) and name.upper() == rateCode.upper():
+                return rate
+        mLogger.debug(f"GetDictableRate: could not retrieve '{rateCode}' from rate mapping")
+        return None
+
+    @staticmethod
+    def GenerateRates(data: Sequence[Types.DictableRate]) -> Sequence[Rate]:
+        """
+        Generates Rate objects from a Sequence of rate dictionaries
+
+            Parameters:
+                    data    (Sequence)    : Sequence of rate dictionaries
+
+            Returns:
+                    rates   (Sequence)    : Sequence of Rate objects
+        """
+        if not isinstance(data, Sequence):
+            mLogger.critical(f"GenerateRatesException: data is not type sequence but type '{type(data)}'")
+            raise TypeError("Argument to function GenerateRates must be a of a sequence type not of type '%s'" % type(data))
+        generatedRates: MutableSequence[Rate] = []
+        item: Mapping[str, Union[str, float]]
+        for item in data:
+            rate: Rate = Rate(str(item["name"]), str(item["currency_code"]), float(item["from_euro"]), float(item["to_euro"]))
+            generatedRates.append(rate)
+        generatedRates.append(Rate("Euro", "EUR", 1.0, 1.0))
+        return generatedRates
+
     def __eq__(self, other: object) -> bool:
         if isinstance(other, Rate):
             return self.name == other.name and self.code == other.code
-        raise TypeError("Cannot compare type '%s' with type 'Rate'" % type(other))
+        mLogger.warning(f"RateEqualityException: can only compare a Rate type with another Rate, not type '{type(other)}'")
+        return False

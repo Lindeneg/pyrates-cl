@@ -44,6 +44,7 @@ class Constants:
     timestamp: str = "timestamp"
     toEuro: str = "to_euro"
     defaultFrom: str = "eur"
+    defaultFromName: str = "euro"
     defaultTo: str = "usd"
     defaultAmount: float = 1.0
     defaultDict: Mapping[str, None] = {"data": None}
@@ -107,3 +108,32 @@ class Constants:
         "USD": "US Dollar",
         "VEF": "Venezuelan Bolivar"   
     }
+
+
+class GUI:
+    title: str = "PyRatesGUI 0.2"
+    source: str = "https://github.com/lindeneg/pyrates-cl"
+    defaultUtilityContent: str = "PyRatesGUI - 0.2\n\nMake a Conversion.."
+    defaultMainView: str = "default"
+    supportedRatesView: str = "supportedRates"
+    height: int = 800
+    width: int = 800
+    conversionHeight: int = 150
+    conversionWidth: int = 645
+    labelWidth: int = 20
+    xOffset: int = 10
+    yOffset: int = 5
+    utilityXOffset: int = 300
+    utilityYOffset: float = height-(height * 0.9)+20
+    utilityContentHeight: int = 9
+    utilityContentWidth: int = 44
+    componentTableHeight: int = 32
+    backgroundColor: str = "#000000"
+    textColor: str = "#ffffff"
+    buttonColor: str = "#666666"
+    buttonWidth: int = 16
+    buttonYPadding: int = 20
+    amountInputLabelSpacing: int = 4
+    fromInputLabelSpacing: int = 15
+    toInputLabelSpacing: int = 21
+    resizeable: bool = False

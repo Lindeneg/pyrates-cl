@@ -31,6 +31,7 @@ class PyRates:
         self.__timestamp: float = 0
         self.__Init()
         if len(self.__dictableRates) <= 0 or len(self.__rates) <= 0 or self.__timestamp == 0:
+            mLogger.critical(f"PyRatesInitException: {self.__timestamp} {self.__rates} {self.__dictableRates}")
             raise Exception("PyRatesInitError: Failed to initialize. Check '%s/%s' for further inspection." % (Constants.logPath, Constants.logFileName))
 
     def Convert(
@@ -62,7 +63,9 @@ class PyRates:
             mToRate = toRate
         if isinstance(mFromRate, Rate) and isinstance(mToRate, Rate):
             return mFromRate.Convert(mToRate, amount)
-        raise Exception(f"PyRatesConversionError: Failed to convert {amount} {fromRate} -> {toRate}. Check '{Constants.logPath}/{Constants.logFileName}' for further inspection.")
+        mLogger.error(f"PyRatesConversionError: ({amount},{type(amount)}) ({fromRate},{type(fromRate)}) -> ({toRate},{type(toRate)})")
+        print(f"PyRatesConversionError: Failed to convert {amount} {fromRate} -> {toRate}")
+        return 0
     
     def GetRates(self) -> Sequence[Types.DictableRate]:
         """
@@ -83,7 +86,7 @@ class PyRates:
                     rate   (str)                 : Three letter currencycode string
 
             Returns:
-                    result (Sequence, None)      : Dictionary with given rate information or None
+                    result (Mapping, None)       : Dictionary with given rate information or None
         """
         return Rate.GetDictableRate(rate, self.__dictableRates)
 
@@ -204,5 +207,5 @@ TIME  : {self.GetTimeString()}
 |==========================================================================|
 | CURRENCY | 1.0 EUR                        | INV 1.0
 |==========================================================================|
-{"".join([rate.GetTableString() for rate in self.__rates if not rate.code.upper() == "EUR"])}
+{"".join([rate.GetTableString() for rate in self.__rates if not rate.code.upper() == Constants.defaultFrom.upper()])}
 """

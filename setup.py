@@ -12,7 +12,7 @@ require = [i for i in requirements if not i == ""]
 
 setuptools.setup(
     name="pyrates-cl",
-    version="0.1",
+    version="0.2",
     author="Christian Lindeneg",
     author_email="christian@lindeneg.org",
     description="Currency Conversion",
@@ -21,6 +21,13 @@ setuptools.setup(
     url="https://github.com/lindeneg/pyrates-cl",
     packages=setuptools.find_packages(),
     install_requires=require,
+    test_suite="tests", # switch to tox
+    keywords='currency conversion',
+    entry_points ={ 
+        'console_scripts': [ 
+            'pyrates = pyrates.pyrates_cli:main'
+        ] 
+    }, 
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

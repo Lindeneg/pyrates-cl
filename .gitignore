@@ -4,6 +4,11 @@
 __pycache__/
 *.py[cod]
 *$py.class
+
+# C extensions
+*.so
+
+# Custom
 .mypy_cache
 .vscode
 envrate/
@@ -11,9 +16,9 @@ envrate/
 build/
 dist/
 pyrates_cl.egg-info/
-
-# C extensions
-*.so
+.idea/
+gui-mockup.png
+run.bat
 
 # Distribution / packaging
 .Python

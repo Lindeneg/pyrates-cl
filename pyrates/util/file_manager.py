@@ -24,7 +24,6 @@ def FileManager(
     mFile: IO[Any]
     try:
         with open(f"{path}/{name}", flag(data)) as mFile:
-            mLogger.debug(f"FileManager: handling ({path}, {name})")
             if data:
                 dump(data, mFile)
             else:
