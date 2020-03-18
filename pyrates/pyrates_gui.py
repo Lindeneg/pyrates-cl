@@ -11,6 +11,7 @@ from typing import Sequence, Mapping, Callable, Union
 
 from pyrates.pyrates import PyRates
 from pyrates.util.constants import GUI, Types, Constants
+from pyrates.logger.logger import mLogger
 
 
 class PyRatesGUI:
@@ -20,6 +21,10 @@ class PyRatesGUI:
     To run the GUI, call the static method Run()
     """
     def __init__(self, master: Tk) -> None:
+        if not isinstance(master, Tk):
+            mLogger.critical(f"GUIException: constructor called with '{master}' of type '{type(master)}'")
+            raise Exception("Run PyRatesGUI via the static Run() method.")
+        self.__viewState: bool = False
         self.__master: Tk = master
         self.__pyrates: PyRates = PyRates()
         self.__canvas: Canvas = Canvas(
@@ -32,13 +37,16 @@ class PyRatesGUI:
         self.__RenderAll()
 
     def __RenderAll(
-        self, mainView: str = GUI.defaultMainView, 
+        self, 
+        mainView: str = GUI.defaultMainView, 
         utilityContent: str = GUI.defaultUtilityContent
         ) -> None:
         self.__ComponentMenuView()
         if mainView == GUI.defaultMainView:
+            self.__viewState = False
             self.__ComponentRatesTableView()
         else:
+            self.__viewState = True
             self.__ComponentRatesTableView(viewSupportedCurrencies=True)
         self.__ComponentConversionView()
         self.__ComponentUtilityView(content=utilityContent)
@@ -257,21 +265,27 @@ class PyRatesGUI:
                 self.__ComponentUtilityView(content=GenerateConversionString(cFrom, cTo, cAmount, conversion))
                 return
             else:
+                mLogger.warning(f"GUICommandMakeConversion: {cAmount}{cFrom}->{cTo}->{conversion}")
                 errorString += "\nConversion error but inputs were valid..\nCheck logs for further investigation."
+        mLogger.error(f"GUICommandMakeConversion: {errorString}")
         self.__ComponentUtilityView(content=errorString)
 
     def __CommandUpdateRates(self) -> None:
+        content: str
         if not self.__pyrates.UpdateRates():
-            self.__ComponentUtilityView(content=GenerateUpdateErrorString(self.__pyrates.GetTimestamp()))
+            content = GenerateUpdateErrorString(self.__pyrates.GetTimestamp())
         else:
-            self.__ComponentUtilityView(content="\nRates have been updated")
-            self.__ComponentRatesTableView()
+            content = "\nRates have been updated"
+        if self.__viewState:
+            self.__RenderAll(mainView=GUI.supportedRatesView, utilityContent=content)
+        else:
+            self.__RenderAll(mainView=GUI.defaultMainView, utilityContent=content)
 
     def __CommandViewRates(self) -> None:
-        self.__ComponentRatesTableView()
+        self.__RenderAll()
 
     def __CommandViewSupportedCurrencies(self) -> None:
-        self.__ComponentRatesTableView(viewSupportedCurrencies=True)
+        self.__RenderAll(mainView=GUI.supportedRatesView)
 
     def __CommandAbout(self) -> None:
         open_new(GUI.source)
@@ -301,9 +315,18 @@ class PyRatesGUI:
 def CheckConversionInputValues(entry: str, isFromRate: bool) -> Union[bool, str]:
     if entry == "":
         if isFromRate:
+            mLogger.debug(
+                "GUIGenerateConversionString: entry empty, input detected as fromRate, returning '%s'"
+                % Constants.defaultFrom
+            )
             return Constants.defaultFrom
         else:
+            mLogger.debug(
+                "GUIGenerateConversionString: entry empty, input detected as toRate, returning '%s'"
+                % Constants.defaultTo
+            )
             return Constants.defaultTo
+    mLogger.debug(f"GUIGenerateConversionString: checking if '{entry}' is valid currency")
     keys, values = [i.upper() for i in Constants.currencies.keys()], [j.upper() for j in Constants.currencies.values()]
     keys.append(Constants.defaultFrom.upper())
     values.append(Constants.defaultFromName.upper())
@@ -313,6 +336,7 @@ def CheckConversionInputValues(entry: str, isFromRate: bool) -> Union[bool, str]
     for i in range(len(values)):
         if entry.upper() == values[i].upper():
             return keys[i]
+    mLogger.debug(f"GUIGenerateConversionString: found '{entry}' invalid as any supported currency")
     return False
 
 
@@ -325,6 +349,7 @@ def CheckAmountInputValue(entry: str) -> Union[bool, float]:
             return float(amount)
         except ValueError as e:
             print(e)
+    mLogger.warning(f"GUICheckAmountInputValue: '{entry}' could not be converted into a number")
     return False
 
 
