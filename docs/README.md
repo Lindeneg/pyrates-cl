@@ -142,5 +142,18 @@ TIME  : 2020-03-15 20:53:20 UTC
 
 CLI/GUI Usage <a name="anchor-cli-gui"></a>
 ================
-Work In Progress
+```
+usage: pyrates_cli.py [-h] [-g | -r | -c] [-a A] [-f F] [-t T]
+
+Convert rates between currencies 
+
+optional arguments:
+  -h, --help        show this help message and exit
+  -g, --gui         starts pyrates gui
+  -r, --all-rates   get all rates
+  -c, --conversion  conversion flag
+  -a A              amount to convert
+  -f F              convert from currency-code
+  -t T              convert to currency-code
+```
 
