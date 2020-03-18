@@ -30,6 +30,9 @@ class GUI:
     source: str = "https://github.com/lindeneg/pyrates-cl"
     height: int = 800
     width: int = 800
+    conversionHeight: int = 150
+    conversionWidth: int = 645
+    labelWidth: int = 20
     xOffset: int = 10
     yOffset: int = 5
     componentTableHeight: int = 32
