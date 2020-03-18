@@ -21,7 +21,7 @@ setuptools.setup(
     url="https://github.com/lindeneg/pyrates-cl",
     packages=setuptools.find_packages(),
     install_requires=require,
-    test_suite="tests",
+    test_suite="tests", # switch to tox
     scripts=["bin/pyrates"],
     classifiers=[
         "Programming Language :: Python :: 3",
