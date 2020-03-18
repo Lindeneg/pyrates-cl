@@ -64,7 +64,7 @@ class PyRates:
         if isinstance(mFromRate, Rate) and isinstance(mToRate, Rate):
             return mFromRate.Convert(mToRate, amount)
         mLogger.error(f"PyRatesConversionError: ({amount},{type(amount)}) ({fromRate},{type(fromRate)}) -> ({toRate},{type(toRate)})")
-        print(f"PyRatesConversionError: Failed to convert {amount} {fromRate} -> {toRate}. Check '{Constants.logPath}/{Constants.logFileName}' for further inspection.")
+        print(f"PyRatesConversionError: Failed to convert {amount} {fromRate} -> {toRate}")
         return 0
     
     def GetRates(self) -> Sequence[Types.DictableRate]:

@@ -49,8 +49,8 @@ class Scraper:
                 )
             ]
             rates, timestamp = MakeRatesDictable(mRates)
-        else:
-            mLogger.critical(f"ScrapeRatesExpection: response: {request}, handled: {rates}")
+        if len(rates) <= 0:
+            mLogger.critical(f"ScrapeRatesExpection: response: {str(request)}, handled: {rates}")
         return rates, timestamp
 
 
