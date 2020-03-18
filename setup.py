@@ -22,7 +22,12 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     install_requires=require,
     test_suite="tests", # switch to tox
-    scripts=["bin/pyrates"],
+    keywords='currency conversion',
+    entry_points ={ 
+        'console_scripts': [ 
+            'pyrates = pyrates.pyrates_cli:main'
+        ] 
+    }, 
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
