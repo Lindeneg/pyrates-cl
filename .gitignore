@@ -18,6 +18,7 @@ dist/
 pyrates_cl.egg-info/
 .idea/
 gui-mockup.png
+run.bat
 
 # Distribution / packaging
 .Python
