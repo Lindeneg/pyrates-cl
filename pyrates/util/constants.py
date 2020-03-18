@@ -113,6 +113,8 @@ class Constants:
 class GUI:
     title: str = "PyRatesGUI 0.2"
     source: str = "https://github.com/lindeneg/pyrates-cl"
+    defaultUtilityContent: str = "PyRatesGUI - 0.2\n\nMake a Conversion.."
+    defaultMainView: str = "default"
     height: int = 800
     width: int = 800
     conversionHeight: int = 150
@@ -130,4 +132,7 @@ class GUI:
     buttonColor: str = "#666666"
     buttonWidth: int = 16
     buttonYPadding: int = 20
+    amountInputLabelSpacing: int = 4
+    fromInputLabelSpacing: int = 15
+    toInputLabelSpacing: int = 21
     resizeable: bool = False
