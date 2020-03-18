@@ -115,6 +115,7 @@ class GUI:
     source: str = "https://github.com/lindeneg/pyrates-cl"
     defaultUtilityContent: str = "PyRatesGUI - 0.2\n\nMake a Conversion.."
     defaultMainView: str = "default"
+    supportedRatesView: str = "supportedRates"
     height: int = 800
     width: int = 800
     conversionHeight: int = 150
