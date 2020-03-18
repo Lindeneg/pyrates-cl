@@ -107,7 +107,7 @@ class PyRatesGUI:
 
         amoutInputLabel: Label = Label(
             conversionFrame, 
-            text="Amount, default: 1.0     ", 
+            text="Amount To Convert:    ", 
             bg=GUI.backgroundColor, 
             fg=GUI.textColor
         ).grid(row=0)
@@ -119,11 +119,12 @@ class PyRatesGUI:
             width=GUI.labelWidth
         )
         amountInputEntry.grid(row=1)
+        amountInputEntry.insert(INSERT, "1.0")
 
 
         convertfromInputLabel: Label = Label(
             conversionFrame, 
-            text="From,      default: 'eur'  ", 
+            text="Convert From:               ", 
             bg=GUI.backgroundColor, 
             fg=GUI.textColor
         ).grid(row=2)
@@ -135,11 +136,12 @@ class PyRatesGUI:
             width=GUI.labelWidth,
         )
         convertFromInputEntry.grid(row=3)
+        convertFromInputEntry.insert(INSERT, Constants.defaultFrom.upper())
 
 
         convertToInputLabel: Label = Label(
             conversionFrame, 
-            text="To,           default: 'usd'  ", 
+            text="Convert To:                     ", 
             bg=GUI.backgroundColor, 
             fg=GUI.textColor
         ).grid(row=4)
@@ -151,6 +153,7 @@ class PyRatesGUI:
             width=GUI.labelWidth
         )
         convertToInputEntry.grid(row=5)
+        convertToInputEntry.insert(INSERT, Constants.defaultTo.upper())
 
         ConversionMeta: Callable[[], None] = lambda: self.__CommandMakeConversion(
             amountInputEntry.get(),
@@ -164,25 +167,40 @@ class PyRatesGUI:
             command=ConversionMeta, 
             bg=GUI.buttonColor, 
             fg=GUI.textColor,
-            width=16
-        ).grid(row=6, pady=20)
+            width=GUI.buttonWidth
+        ).grid(row=6, pady=GUI.buttonYPadding)
     
     def __ComponentUtilityView(self, content: str) -> None:
-        pass
+        utilityFrame: Frame = Frame(master=self.__master)
+        utilityFrame.place(
+            x=GUI.utilityXOffset, 
+            y=GUI.utilityYOffset
+        )
+        utilityContent: Text = Text(
+            master=utilityFrame,
+            bg=GUI.backgroundColor, 
+            fg=GUI.textColor,
+            height=GUI.utilityContentHeight,
+            width=GUI.utilityContentWidth
+        )
+        utilityContent.insert(INSERT, content)
+        print(content)
+        utilityContent.config(state=DISABLED)
+        utilityContent.pack()
+
 
     def __CommandMakeConversion(self, amount: str, fromEntry: str, toEntry: str) -> None:
         errorString: str = ""
         resultString: str = ""
-        cAmount: float
-        cFrom: Union[bool, str]
-        cTo: Union[bool, str]
-        cAmount, cFrom, cTo = CheckAmountInputValue(amount), CheckConversionInputValues(fromEntry), CheckConversionInputValues(toEntry)
+        cAmount: float = CheckAmountInputValue(entry=amount)
+        cFrom: Union[bool, str] = CheckConversionInputValues(entry=fromEntry, isFromRate=True)
+        cTo: Union[bool, str] = CheckConversionInputValues(entry=toEntry, isFromRate=False)
         if not cFrom: 
-            errorString += "%s" % fromEntry
+            errorString += "\nFrom '%s' not found\n" % fromEntry
         if not cTo:
-            errorString += "%s" % toEntry
+            errorString += "\nTo '%s' not found\n" % toEntry
         if not cAmount:
-            errorString += "%s" % amount
+            errorString += "\n'%s' is not a valid number\n" % amount
         if len(errorString) <= 0 and isinstance(cFrom, str) and isinstance(cTo, str):
             conversion: float = self.__pyrates.Convert(fromRate=cFrom, toRate=cTo, amount=cAmount)
             self.__ComponentUtilityView(content=GenerateConversionString(cFrom, cTo, cAmount, conversion))
@@ -210,6 +228,8 @@ class PyRatesGUI:
 
     def __StringifySupportedCurrencies(self) -> str:
         result: str = ""
+        code: str
+        name: str
         for code, name in Constants.currencies.items():
             result += f"{code.upper()}  - {name.title()}\n"
         return result
@@ -223,17 +243,57 @@ class PyRatesGUI:
         PyRatesGUI(root)
         root.mainloop()
 
-def CheckConversionInputValues(entry: str) -> Union[bool, str]:
+def CheckConversionInputValues(entry: str, isFromRate: bool) -> Union[bool, str]:
+    if entry == "":
+        if isFromRate:
+            return Constants.defaultFrom
+        else:
+            return Constants.defaultTo
     keys, values = [i.upper() for i in Constants.currencies.keys()], [j.upper() for j in Constants.currencies.values()]
+    keys.append(Constants.defaultFrom.upper())
+    values.append(Constants.defaultFromName.upper())
+    if entry.upper() in keys:
+        return entry
+    i: int
+    for i in range(len(values)):
+        if entry.upper() == values[i].upper():
+            return keys[i]
     return False
 
 
 def CheckAmountInputValue(entry: str) -> Union[bool, float]:
+    if entry == "":
+        return Constants.defaultAmount
+    amount: str = entry.replace(",", ".")
+    if amount.count(".") <= 1:
+        try:
+            return float(amount)
+        except ValueError as e:
+            print(e)
     return False
 
 
 def GenerateConversionString(cFrom: str, cTo: str, cAmount: float, result: float) -> str:
-    pass
+    sFrom: str
+    sTo: str
+    if cFrom.upper() == Constants.defaultFrom.upper():
+        sFrom = Constants.defaultFromName.upper()
+    else:
+        sFrom = Constants.currencies[cFrom.upper()].upper()
+    if cTo.upper() == Constants.defaultFrom.upper():
+        sTo = Constants.defaultFromName.upper()
+    else:
+        sTo = Constants.currencies[cTo.upper()].upper()
+    return f"""CONVERSION:
+
+{cAmount} {sFrom} -> {round(result, 4)} {sTo}
+"""
 
 def GenerateUpdateErrorString(timestamp: float) -> str:
-    pass
+    return """"
+ERRORERROREERRORROR
+ERRORERROREERRORRORERRORERROREERRORROR
+ERRORERROREERRORRORERRORERROREERRORROR
+ERRORERROREERRORROR
+ERRORERROREERRORROR
+"""
