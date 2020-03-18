@@ -326,7 +326,6 @@ def CheckConversionInputValues(entry: str, isFromRate: bool) -> Union[bool, str]
                 % Constants.defaultTo
             )
             return Constants.defaultTo
-    mLogger.debug(f"GUIGenerateConversionString: checking if '{entry}' is valid currency")
     keys, values = [i.upper() for i in Constants.currencies.keys()], [j.upper() for j in Constants.currencies.values()]
     keys.append(Constants.defaultFrom.upper())
     values.append(Constants.defaultFromName.upper())

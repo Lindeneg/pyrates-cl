@@ -31,6 +31,7 @@ class PyRates:
         self.__timestamp: float = 0
         self.__Init()
         if len(self.__dictableRates) <= 0 or len(self.__rates) <= 0 or self.__timestamp == 0:
+            mLogger.critical(f"PyRatesInitException: {self.__timestamp} {self.__rates} {self.__dictableRates}")
             raise Exception("PyRatesInitError: Failed to initialize. Check '%s/%s' for further inspection." % (Constants.logPath, Constants.logFileName))
 
     def Convert(
@@ -62,6 +63,7 @@ class PyRates:
             mToRate = toRate
         if isinstance(mFromRate, Rate) and isinstance(mToRate, Rate):
             return mFromRate.Convert(mToRate, amount)
+        mLogger.error(f"PyRatesConversionError: ({amount},{type(amount)}) ({fromRate},{type(fromRate)}) -> ({toRate},{type(toRate)})")
         print(f"PyRatesConversionError: Failed to convert {amount} {fromRate} -> {toRate}. Check '{Constants.logPath}/{Constants.logFileName}' for further inspection.")
         return 0
     
