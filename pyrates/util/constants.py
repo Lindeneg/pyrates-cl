@@ -52,7 +52,7 @@ class Constants:
     dataFileName: str = "data.json"
     rateStringLength: int = 31
     nameStringLength: int = 9
-    cacheLimitInSeconds: int = 10000 # TODO Revert back to 1800
+    cacheLimitInSeconds: int = 1800
     currencies: Mapping[str, str] = {
         "ARS": "Argentine Peso",
         "AUD": "Australian Dollar",

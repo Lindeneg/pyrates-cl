@@ -1,4 +1,6 @@
 import sys
+from time import time
+from datetime import datetime
 from tkinter import (
     Tk, Canvas, Frame, Button, 
     Text, Scrollbar, Entry, Label, 
@@ -24,10 +26,14 @@ class PyRatesGUI:
         self.__canvas.pack()
         self.__RenderAll()
 
-    def __RenderAll(self) -> None:
+    def __RenderAll(self, mainView: str = "currentRates", utilityContent: str = "PyRatesGUI - 0.2\n\nMake a Conversion") -> None:
         self.__ComponentMenuView()
-        self.__ComponentRatesTableView()
+        if mainView == "currentRates":
+            self.__ComponentRatesTableView()
+        else:
+            self.__ComponentRatesTableView(viewSupportedCurrencies=True)
         self.__ComponentConversionView()
+        self.__ComponentUtilityView(content=utilityContent)
     
     def __ComponentMenuView(self) -> None:
         menuFrame: Frame = Frame(master=self.__master, bg=GUI.backgroundColor)
@@ -184,7 +190,6 @@ class PyRatesGUI:
             width=GUI.utilityContentWidth
         )
         utilityContent.insert(INSERT, content)
-        print(content)
         utilityContent.config(state=DISABLED)
         utilityContent.pack()
 
@@ -290,10 +295,11 @@ def GenerateConversionString(cFrom: str, cTo: str, cAmount: float, result: float
 """
 
 def GenerateUpdateErrorString(timestamp: float) -> str:
-    return """"
-ERRORERROREERRORROR
-ERRORERROREERRORRORERRORERROREERRORROR
-ERRORERROREERRORRORERRORERROREERRORROR
-ERRORERROREERRORROR
-ERRORERROREERRORROR
+    currentAge = abs(time() - timestamp)
+    limitAge = abs(Constants.cacheLimitInSeconds - currentAge)
+    return f"""
+Update of Rates Failed.
+
+Rates are {datetime.utcfromtimestamp(currentAge).strftime('%M')} minutes old
+They can be updated again in {datetime.utcfromtimestamp(limitAge).strftime('%M')} minutes
 """

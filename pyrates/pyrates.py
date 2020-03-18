@@ -62,7 +62,8 @@ class PyRates:
             mToRate = toRate
         if isinstance(mFromRate, Rate) and isinstance(mToRate, Rate):
             return mFromRate.Convert(mToRate, amount)
-        raise Exception(f"PyRatesConversionError: Failed to convert {amount} {fromRate} -> {toRate}. Check '{Constants.logPath}/{Constants.logFileName}' for further inspection.")
+        print(f"PyRatesConversionError: Failed to convert {amount} {fromRate} -> {toRate}. Check '{Constants.logPath}/{Constants.logFileName}' for further inspection.")
+        return 0
     
     def GetRates(self) -> Sequence[Types.DictableRate]:
         """
@@ -204,5 +205,5 @@ TIME  : {self.GetTimeString()}
 |==========================================================================|
 | CURRENCY | 1.0 EUR                        | INV 1.0
 |==========================================================================|
-{"".join([rate.GetTableString() for rate in self.__rates if not rate.code.upper() == "EUR"])}
+{"".join([rate.GetTableString() for rate in self.__rates if not rate.code.upper() == Constants.defaultFrom.upper()])}
 """
