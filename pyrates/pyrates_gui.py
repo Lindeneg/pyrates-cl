@@ -22,13 +22,21 @@ class PyRatesGUI:
     def __init__(self, master: Tk) -> None:
         self.__master: Tk = master
         self.__pyrates: PyRates = PyRates()
-        self.__canvas: Canvas = Canvas(self.__master, bg=GUI.backgroundColor, height=GUI.height, width=GUI.width)
+        self.__canvas: Canvas = Canvas(
+            self.__master, 
+            bg=GUI.backgroundColor, 
+            height=GUI.height, 
+            width=GUI.width
+        )
         self.__canvas.pack()
         self.__RenderAll()
 
-    def __RenderAll(self, mainView: str = "currentRates", utilityContent: str = "PyRatesGUI - 0.2\n\nMake a Conversion") -> None:
+    def __RenderAll(
+        self, mainView: str = GUI.defaultMainView, 
+        utilityContent: str = GUI.defaultUtilityContent
+        ) -> None:
         self.__ComponentMenuView()
-        if mainView == "currentRates":
+        if mainView == GUI.defaultMainView:
             self.__ComponentRatesTableView()
         else:
             self.__ComponentRatesTableView(viewSupportedCurrencies=True)
@@ -36,8 +44,16 @@ class PyRatesGUI:
         self.__ComponentUtilityView(content=utilityContent)
     
     def __ComponentMenuView(self) -> None:
-        menuFrame: Frame = Frame(master=self.__master, bg=GUI.backgroundColor)
-        menuFrame.place(relwidth=0.98, relheight=0.1, x=GUI.xOffset, y=GUI.yOffset)
+        menuFrame: Frame = Frame(
+            master=self.__master, 
+            bg=GUI.backgroundColor
+        )
+        menuFrame.place(
+            relwidth=0.98, 
+            relheight=0.1, 
+            x=GUI.xOffset, 
+            y=GUI.yOffset
+        )
 
         viewRatesButton: Button = Button(
             master=menuFrame, 
@@ -83,9 +99,15 @@ class PyRatesGUI:
         )
         sourceCodeButton.pack(side=RIGHT)
 
-    def __ComponentRatesTableView(self, viewSupportedCurrencies: bool = False) -> None:
+    def __ComponentRatesTableView(
+        self, 
+        viewSupportedCurrencies: bool = False
+        ) -> None:
         ratesTableFrame: Frame = Frame(master=self.__master)
-        ratesTableFrame.place(x=GUI.xOffset, y=(GUI.height/3))
+        ratesTableFrame.place(
+            x=GUI.xOffset, 
+            y=(GUI.height/3)
+        )
 
         ratesTableContent: Text = Text(
             master=ratesTableFrame,
@@ -98,77 +120,98 @@ class PyRatesGUI:
             text = self.__StringifySupportedCurrencies()
         else:
             text = self.__pyrates.__repr__()
-        ratesTableContent.insert(INSERT, text)
+        ratesTableContent.insert(index=INSERT, chars=text)
         ratesTableContent.config(state=DISABLED)
         ratesTableContent.pack()
 
     def __ComponentConversionView(self) -> None:
         conversionFrame: Frame = Frame(
-            self.__master, 
+            master=self.__master, 
             bg=GUI.backgroundColor, 
             height=GUI.conversionHeight, 
             width=GUI.conversionWidth
         )
-        conversionFrame.place(x=GUI.xOffset, y=(GUI.height-(GUI.height * 0.9)))
+        conversionFrame.place(
+            x=GUI.xOffset, 
+            y=(GUI.height-(GUI.height * 0.9))
+        )
 
         amoutInputLabel: Label = Label(
-            conversionFrame, 
-            text="Amount To Convert:    ", 
+            master=conversionFrame, 
+            text=FillInputLabels(
+                "Amount To Convert:", 
+                GUI.amountInputLabelSpacing
+            ), 
             bg=GUI.backgroundColor, 
             fg=GUI.textColor
         ).grid(row=0)
         amountInputEntry: Entry = Entry(
-            conversionFrame, 
+            master=conversionFrame, 
             bg=GUI.backgroundColor, 
             fg=GUI.textColor, 
             insertbackground=GUI.buttonColor, 
             width=GUI.labelWidth
         )
         amountInputEntry.grid(row=1)
-        amountInputEntry.insert(INSERT, "1.0")
+        amountInputEntry.insert(
+            index=INSERT, 
+            string="1.0"
+        )
 
 
         convertfromInputLabel: Label = Label(
-            conversionFrame, 
-            text="Convert From:               ", 
+            master=conversionFrame, 
+            text=FillInputLabels(
+                "Convert From:", 
+                GUI.fromInputLabelSpacing
+            ), 
             bg=GUI.backgroundColor, 
             fg=GUI.textColor
         ).grid(row=2)
         convertFromInputEntry: Entry = Entry(
-            conversionFrame, 
+            master=conversionFrame, 
             bg=GUI.backgroundColor, 
             fg=GUI.textColor, 
             insertbackground=GUI.buttonColor,
             width=GUI.labelWidth,
         )
         convertFromInputEntry.grid(row=3)
-        convertFromInputEntry.insert(INSERT, Constants.defaultFrom.upper())
+        convertFromInputEntry.insert(
+            index=INSERT, 
+            string=Constants.defaultFrom.upper()
+        )
 
 
         convertToInputLabel: Label = Label(
             conversionFrame, 
-            text="Convert To:                     ", 
+            text=FillInputLabels(
+                "Convert To:", 
+                GUI.toInputLabelSpacing
+            ), 
             bg=GUI.backgroundColor, 
             fg=GUI.textColor
         ).grid(row=4)
         convertToInputEntry: Entry = Entry(
-            conversionFrame, 
+            master=conversionFrame, 
             bg=GUI.backgroundColor, 
             fg=GUI.textColor, 
             insertbackground=GUI.buttonColor,
             width=GUI.labelWidth
         )
         convertToInputEntry.grid(row=5)
-        convertToInputEntry.insert(INSERT, Constants.defaultTo.upper())
+        convertToInputEntry.insert(
+            index=INSERT, 
+            string=Constants.defaultTo.upper()
+        )
 
         ConversionMeta: Callable[[], None] = lambda: self.__CommandMakeConversion(
-            amountInputEntry.get(),
-            convertFromInputEntry.get(),
-            convertToInputEntry.get()
+            amount=amountInputEntry.get(),
+            fromEntry=convertFromInputEntry.get(),
+            toEntry=convertToInputEntry.get()
         )
 
         Button(
-            conversionFrame, 
+            master=conversionFrame, 
             text="Make Conversion", 
             command=ConversionMeta, 
             bg=GUI.buttonColor, 
@@ -189,10 +232,12 @@ class PyRatesGUI:
             height=GUI.utilityContentHeight,
             width=GUI.utilityContentWidth
         )
-        utilityContent.insert(INSERT, content)
+        utilityContent.insert(
+            index=INSERT, 
+            chars=content
+        )
         utilityContent.config(state=DISABLED)
         utilityContent.pack()
-
 
     def __CommandMakeConversion(self, amount: str, fromEntry: str, toEntry: str) -> None:
         errorString: str = ""
@@ -208,14 +253,18 @@ class PyRatesGUI:
             errorString += "\n'%s' is not a valid number\n" % amount
         if len(errorString) <= 0 and isinstance(cFrom, str) and isinstance(cTo, str):
             conversion: float = self.__pyrates.Convert(fromRate=cFrom, toRate=cTo, amount=cAmount)
-            self.__ComponentUtilityView(content=GenerateConversionString(cFrom, cTo, cAmount, conversion))
-        else:
-            self.__ComponentUtilityView(content=errorString)
+            if conversion > 0:
+                self.__ComponentUtilityView(content=GenerateConversionString(cFrom, cTo, cAmount, conversion))
+                return
+            else:
+                errorString += "\nConversion error but inputs were valid..\nCheck logs for further investigation."
+        self.__ComponentUtilityView(content=errorString)
 
     def __CommandUpdateRates(self) -> None:
         if not self.__pyrates.UpdateRates():
             self.__ComponentUtilityView(content=GenerateUpdateErrorString(self.__pyrates.GetTimestamp()))
         else:
+            self.__ComponentUtilityView(content="\nRates have been updated")
             self.__ComponentRatesTableView()
 
     def __CommandViewRates(self) -> None:
@@ -247,6 +296,7 @@ class PyRatesGUI:
             root.resizable(False, False)
         PyRatesGUI(root)
         root.mainloop()
+
 
 def CheckConversionInputValues(entry: str, isFromRate: bool) -> Union[bool, str]:
     if entry == "":
@@ -291,15 +341,25 @@ def GenerateConversionString(cFrom: str, cTo: str, cAmount: float, result: float
         sTo = Constants.currencies[cTo.upper()].upper()
     return f"""CONVERSION:
 
-{cAmount} {sFrom} -> {round(result, 4)} {sTo}
+{cAmount} {sFrom} 
+
+= {round(result, 4)} {sTo}
 """
+
 
 def GenerateUpdateErrorString(timestamp: float) -> str:
     currentAge = abs(time() - timestamp)
-    limitAge = abs(Constants.cacheLimitInSeconds - currentAge)
+    limitAge = abs(Constants.cacheLimitInSeconds - currentAge) + 60
     return f"""
 Update of Rates Failed.
 
-Rates are {datetime.utcfromtimestamp(currentAge).strftime('%M')} minutes old
+Rates are currently {datetime.utcfromtimestamp(currentAge).strftime('%M')} minutes old
 They can be updated again in {datetime.utcfromtimestamp(limitAge).strftime('%M')} minutes
 """
+
+def FillInputLabels(labelText: str, target: int) -> str:
+    diff: int = target - len(labelText)
+    if diff >= 1:
+        for _ in range(diff):
+            labelText += " "
+    return labelText
