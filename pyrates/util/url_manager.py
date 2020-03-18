@@ -1,4 +1,4 @@
-from typing import Tuple, Mapping, Optional, IO, Callable, Union, Any
+from typing import Mapping
 from time import sleep
 
 from requests import get, RequestException, Response
@@ -25,6 +25,5 @@ def URLManager(url: str, header: Mapping[str, str], mSleep: int = 8, rJSON: bool
         if rJSON:
             return req.json()
         return req.content
-    else:
-        mLogger.critical(f"URLManager: non-200 response: {req}")
+    mLogger.critical(f"URLManager: non-200 response: {req}")
     raise Exception("PyRatesURLError: Failed communication with server. Check '%s/%s' for further inspection." % (Constants.logPath, Constants.logFileName))
