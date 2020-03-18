@@ -1,5 +1,6 @@
 # PyRates Docs
 
+* ## [Installation](#anchor-installation)
 * ## [Module Usage](#anchor-pyrates)
   - [`Convert()`](#anchor-pyrates-convert)
   - [`GetRates()`](#anchor-pyrates-get-rates)
@@ -11,6 +12,22 @@
   - [`UpdateRates()`](#anchor-pyrates-update-rates)
   - [`__repr__()`](#anchor-pyrates-repr)
 * ## [CLI/GUI Usage](#anchor-cli-gui)
+
+<br/><br/>
+
+Installation <a name="anchor-installation"></a>
+================
+PIP
+```shell
+$ python -m pip install pyrates-cl
+```
+
+Source
+
+```shell
+$ git clone https://github.com/Lindeneg/pyrates-cl && cd pyrates-cl
+$ python setup.py install
+```
 
 <br/><br/>
 
