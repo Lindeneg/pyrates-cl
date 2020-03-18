@@ -18,19 +18,4 @@ The base currency is by default: Euro. Work in progress to let the user change t
 To do:
 - Allow changing of base currency
 
-
-# Installation
-
-PIP
-```shell
-$ python -m pip install pyrates-cl
-```
-
-Source
-
-```shell
-$ git clone https://github.com/Lindeneg/pyrates-cl && cd pyrates-cl
-$ python setup.py install
-```
-
-#### [Documentation](https://github.com/Lindeneg/pyrates-cl/tree/0.2/docs)
+## [Documentation](https://github.com/Lindeneg/pyrates-cl/tree/0.2/docs)
